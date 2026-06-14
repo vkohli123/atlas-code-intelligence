@@ -5,10 +5,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#080B12",
-        panel: "#0F172A",
-        muted: "#94A3B8",
-        border: "#1E293B"
+        background: "#FBFBF8",
+        panel: "#FFFFFF",
+        muted: "#6B7280",
+        border: "#E5E7EB"
       }
     }
   },

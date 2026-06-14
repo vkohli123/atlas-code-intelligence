@@ -3,15 +3,37 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 30%), #080B12;
-  color: #E2E8F0;
+  margin: 0;
+  background: #fbfbf8;
+  color: #111111;
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI", sans-serif;
+  text-rendering: geometricPrecision;
+}
+
+pre,
+code,
+textarea {
+  font-family: "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
 pre {
   white-space: pre-wrap;
   word-break: break-word;
+}
+
+::selection {
+  background: #111111;
+  color: #ffffff;
 }

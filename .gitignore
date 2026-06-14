@@ -1,0 +1,10 @@
+.env
+__pycache__/
+.pytest_cache/
+node_modules/
+.next/
+.DS_Store
+*.pyc
+coverage/
+dist/
+build/

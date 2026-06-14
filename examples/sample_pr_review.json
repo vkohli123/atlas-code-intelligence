@@ -1,0 +1,5 @@
+{
+  "repo": "sample-service",
+  "diff": "diff --git a/app/providers.py b/app/providers.py\n--- a/app/providers.py\n+++ b/app/providers.py\n@@ -1,5 +1,9 @@\n+import requests\n+\n class ProviderRouter:\n@@\n+    def call_external(self, payload):\n+        response = requests.post('https://api.example.com/chat', json=payload)\n+        return response.json()\n",
+  "top_k": 8
+}

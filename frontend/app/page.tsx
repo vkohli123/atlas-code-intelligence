@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import {
   askRepo,
-  indexSampleRepo,
+  indexGithubRepo,
   listRepos,
   reviewDiff,
   type AskResponse,
@@ -42,7 +42,9 @@ const examplePrompts = [
 
 export default function Home() {
   const [repos, setRepos] = useState<RepoSummary[]>([]);
-  const [repo, setRepo] = useState("llm-gateway");
+ const [repo, setRepo] = useState("llm-gateway");
+const [repoName, setRepoName] = useState("llm-gateway");
+const [repoUrl, setRepoUrl] = useState("https://github.com/vkohli123/llm-gateway-smart-proxy.git");
   const [question, setQuestion] = useState("Where is provider logic implemented?");
   const [answer, setAnswer] = useState<AskResponse | null>(null);
   const [diff, setDiff] = useState(sampleDiff);
@@ -85,13 +87,20 @@ export default function Home() {
     }
   }
 
-  function handleIndex() {
-    withLoading(async () => {
-      await indexSampleRepo();
-      await refresh();
-      setRepo("llm-gateway");
-    });
-  }
+function handleIndex() {
+  withLoading(async () => {
+    const cleanName = repoName.trim();
+    const cleanUrl = repoUrl.trim();
+
+    if (!cleanName || !cleanUrl) {
+      throw new Error("Enter both repository name and GitHub URL");
+    }
+
+    await indexGithubRepo(cleanName, cleanUrl);
+    await refresh();
+    setRepo(cleanName);
+  });
+}
 
   function handleAsk() {
     withLoading(async () => {
@@ -167,16 +176,46 @@ export default function Home() {
                   className="inline-flex items-center gap-2 rounded-full bg-stone-950 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-stone-800 disabled:opacity-50"
                 >
                   {loading ? <Loader2 className="animate-spin" size={14} /> : <ArrowUpRight size={14} />}
-                  Index sample
+                  Index repo
                 </button>
               </div>
-              <label className="text-xs font-medium uppercase tracking-[0.18em] text-stone-400">Repository</label>
-              <input
-                value={repo}
-                onChange={(e) => setRepo(e.target.value)}
-                className="mt-2 w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm font-medium text-stone-900 outline-none transition placeholder:text-stone-400 focus:border-stone-400 focus:ring-4 focus:ring-stone-200/70"
-                placeholder="llm-gateway"
-              />
+       <div className="space-y-3">
+  <div>
+    <label className="text-xs font-medium uppercase tracking-[0.18em] text-stone-400">
+      Repository to ask
+    </label>
+    <input
+      value={repo}
+      onChange={(e) => setRepo(e.target.value)}
+      className="mt-2 w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm font-medium text-stone-900 outline-none transition placeholder:text-stone-400 focus:border-stone-400 focus:ring-4 focus:ring-stone-200/70"
+      placeholder="llm-gateway"
+    />
+  </div>
+
+  <div>
+    <label className="text-xs font-medium uppercase tracking-[0.18em] text-stone-400">
+      New repo name
+    </label>
+    <input
+      value={repoName}
+      onChange={(e) => setRepoName(e.target.value)}
+      className="mt-2 w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm font-medium text-stone-900 outline-none transition placeholder:text-stone-400 focus:border-stone-400 focus:ring-4 focus:ring-stone-200/70"
+      placeholder="my-service"
+    />
+  </div>
+
+  <div>
+    <label className="text-xs font-medium uppercase tracking-[0.18em] text-stone-400">
+      GitHub repository URL
+    </label>
+    <input
+      value={repoUrl}
+      onChange={(e) => setRepoUrl(e.target.value)}
+      className="mt-2 w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm font-medium text-stone-900 outline-none transition placeholder:text-stone-400 focus:border-stone-400 focus:ring-4 focus:ring-stone-200/70"
+      placeholder="https://github.com/org/repo.git"
+    />
+  </div>
+</div>
               {repos.length > 0 && (
                 <div className="mt-3 flex flex-wrap gap-2">
                   {repos.slice(0, 5).map((item) => (

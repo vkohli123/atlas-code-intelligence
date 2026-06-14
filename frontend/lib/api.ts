@@ -30,14 +30,11 @@ export async function listRepos(): Promise<RepoSummary[]> {
   return res.json();
 }
 
-export async function indexSampleRepo(): Promise<unknown> {
+export async function indexGithubRepo(name: string, repo_url: string): Promise<unknown> {
   const res = await fetch(`${API_BASE}/api/repos/index-github`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      name: "llm-gateway",
-      repo_url: "https://github.com/vkohli123/llm-gateway-smart-proxy.git"
-    })
+    body: JSON.stringify({ name, repo_url })
   });
   if (!res.ok) throw new Error(await res.text());
   return res.json();

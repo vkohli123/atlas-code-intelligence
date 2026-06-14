@@ -34,7 +34,7 @@ export async function indexSampleRepo(): Promise<unknown> {
   const res = await fetch(`${API_BASE}/api/repos/index-local`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name: "sample-service", path: "/app/examples/sample_repo" })
+    body: JSON.stringify({ name: "sample-service", path: "/app/examples/sample-service" })
   });
   if (!res.ok) throw new Error(await res.text());
   return res.json();

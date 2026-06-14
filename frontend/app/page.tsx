@@ -42,7 +42,7 @@ const examplePrompts = [
 
 export default function Home() {
   const [repos, setRepos] = useState<RepoSummary[]>([]);
-  const [repo, setRepo] = useState("sample-service");
+  const [repo, setRepo] = useState("llm-gateway");
   const [question, setQuestion] = useState("Where is provider logic implemented?");
   const [answer, setAnswer] = useState<AskResponse | null>(null);
   const [diff, setDiff] = useState(sampleDiff);
@@ -89,7 +89,7 @@ export default function Home() {
     withLoading(async () => {
       await indexSampleRepo();
       await refresh();
-      setRepo("sample-service");
+      setRepo("llm-gateway");
     });
   }
 
